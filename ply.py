@@ -78,7 +78,7 @@ class tune:
 	get_hdorsd = web.ctx["query"]
 	if get_hdorsd == "?HD":
         	get_data = web.input(quality="heavy")
-	if get_hdorsd == "?SD":
+	else if get_hdorsd == "?SD":
         	get_data = web.input(quality="internet480")
         devices = db.getDevices(dbase)
         hdhr.stream.startStream(channel,devices,get_data.quality)
