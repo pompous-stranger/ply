@@ -80,6 +80,8 @@ class tune:
         	get_data = web.input(quality="heavy")
 	elif get_hdorsd == "?SD":
         	get_data = web.input(quality="internet480")
+	else:
+        	get_data = web.input(quality="mobile")
         devices = db.getDevices(dbase)
         hdhr.stream.startStream(channel,devices,get_data.quality)
         
