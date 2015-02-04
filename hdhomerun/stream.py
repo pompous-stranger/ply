@@ -85,7 +85,9 @@ def startStream(channel,devices,quality):
     streamPath = getPath(channel)
     
     # ffmpeg -i ./stream/stream.ts -vcodec copy -acodec copy ./static/streams/"+channel+".m3u8"
-    pid = sub.Popen(["ffmpeg", "-i", "http://"+ip+":5004/auto/v"+channel+"?transcode="+quality, "-vcodec", "copy", "./static/streams/"+channel+".m3u8"]).pid
+    pid = sub.Popen(["ffmpeg", "-i", "http://"+ip+":5004/auto/v"+channel+quality, "-vcodec", "copy", "./static/streams/"+channel+".m3u8"]).pid
+    # below seems to work better with Roku HDMI Stick and 2100X (firmware 3.1 device) than above (Roku 3?) 
+    # pid = sub.Popen(["ffmpeg", "-i", "http://"+ip+":5004/auto/v"+channel+quality, "-vcodec", "copy", "-acodec", "libfdk_aac", "-ac", "2", "-ab", "192k", "-threads", "0", "-analyzeduration", "2000000", "-hls_time", "2", "-hls_wrap", "40", "-tune", "zerolatency", "-flags", "-global_header", "-fflags", "+genpts+igndts", "-movflags", "+faststart", "./static/streams/"+channel+".m3u8"]).pid
     
     with open(streamPath+".pid","w") as f:
             f.write(str(pid))

@@ -75,15 +75,15 @@ class tune:
     def POST(self, channel):
 	''' Roku-HDHomerun gives ply its display type as query string 
 	attached to tune POST method, ply selects optimal HDHomerun encode '''
-	get_hdorsd = web.ctx["query"]
-	if get_hdorsd == "?HD":
-        	get_data = web.input(quality="heavy")
-	elif get_hdorsd == "?SD":
-        	get_data = web.input(quality="internet480")
-	else:
-        	get_data = web.input(quality="mobile")
-        devices = db.getDevices(dbase)
-        hdhr.stream.startStream(channel,devices,get_data.quality)
+	''' Tuning w/o transcode query selects HDHomeRun's default profile '''
+	hdhr_quality = ""
+ 	get_data = web.input(quality="")
+ 	if get_data.quality == "HD":
+ 		hdhr_quality = "?transcode=heavy"
+ 	elif get_data.quality == "SD":
+ 		hdhr_quality = "?transcode=internet480"
+ 	devices = db.getDevices(dbase)
+ 	hdhr.stream.startStream(channel,devices,hdhr_quality)
         
 class status:
     ''' Reports status of HDHR tuning and HLS process '''
